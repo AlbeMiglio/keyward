@@ -7,8 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-06-14
+
+### Fixed
+
+- **Re-detection loop**: the sanitized prompt was itself re-scanned, so
+  `<<secret:NAME stored at …>>` references were re-claimed by the explicit and
+  context layers. The prompt was then sanitized again, producing nested
+  references and a second block/re-submit cycle. `detect()` now pre-claims the
+  spans of existing references so no layer can match inside them, and
+  `intercept.py` passes the prompt through unchanged if sanitization is a no-op.
+
 ### Added
 
+- **Supabase API keys**: `sb_secret_…` and `sb_publishable_…` are now detected
+  by the regex layer. The legacy JWT-format `anon` / `service_role` keys were
+  already covered by the `jwt` pattern; the current `sb_`-prefixed format was not.
+- **Multi-agent adapters** in `adapters/`: Codex CLI (`UserPromptSubmit`) and
+  Gemini CLI (`BeforeAgent`), both block-only — they save and block, but cannot
+  re-submit a sanitized prompt because those hooks cannot rewrite prompt text.
 - **Context-anchored detection** (`source: context`, ON by default): detects
   `NAME=VALUE` assignments where the name contains a key-ish word component
   (`key`, `token`, `secret`, `password`, `passwd`, `api`, `apikey`, `auth`,

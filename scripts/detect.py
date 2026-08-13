@@ -51,6 +51,8 @@ REGEX_PATTERNS: list[tuple[str, re.Pattern]] = [
     ("google_api",         re.compile(r"AIza[A-Za-z0-9_\-]{35}")),
     ("aws_access_key",     re.compile(r"(?:AKIA|ASIA)[A-Z0-9]{16}")),
     ("hugging_face",       re.compile(r"hf_[A-Za-z0-9]{34,}")),
+    ("supabase_secret",    re.compile(r"sb_secret_[A-Za-z0-9_\-]{20,}")),
+    ("supabase_publish",   re.compile(r"sb_publishable_[A-Za-z0-9_\-]{20,}")),
     ("stripe_live_secret", re.compile(r"sk_live_[A-Za-z0-9]{24,}")),
     ("stripe_test_secret", re.compile(r"sk_test_[A-Za-z0-9]{24,}")),
     ("stripe_live_pub",    re.compile(r"pk_live_[A-Za-z0-9]{24,}")),

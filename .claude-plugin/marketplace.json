@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Keyward — keep API keys out of your Claude Code prompts.",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "keyward",
       "source": "./",
       "description": "Auto-intercept API keys pasted into chat: save to chmod-600 files, block the original prompt, and re-submit a sanitized version. Cross-platform (macOS/Linux/Windows).",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Alberto Migliorato"
       },

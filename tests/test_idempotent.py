@@ -11,6 +11,12 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 from detect import detect  # noqa: E402
 
+# Synthetic keys, split so no contiguous key-shaped literal lands in the repo
+# (GitHub push protection flags it). They cannot be written as EXAMPLE/FAKE
+# either — the placeholder filter would skip them and the test would pass vacuously.
+_SB_SECRET = "sb_" + "secret_nR7auGThKosTVDgi9A0nTA_1q5WcKH9"
+_SB_PUBLISHABLE = "sb_" + "publishable_Md4S8bgD8bmSsUq7olbaLA_VdP7WEz4"
+
 
 def sanitize(prompt, secrets):
     for s in sorted(secrets, key=lambda x: x["span"][0], reverse=True):
@@ -27,6 +33,8 @@ class TestIdempotent(unittest.TestCase):
         "use KEY=Xy3z9abQpieJ now",                               # explicit_default
         "set api2_token=Xy3z9abQ to deploy",                      # context w/ digit in name
         "deploy with ghp_AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIII",   # regex
+        _SB_SECRET,                                               # supabase secret
+        _SB_PUBLISHABLE,                                          # supabase publishable
     ]
 
     def test_sanitized_is_fixed_point(self):
